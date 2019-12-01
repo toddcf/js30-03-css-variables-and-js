@@ -66,11 +66,11 @@
     const effects = {
       // Select all controls:
       inputs: document.querySelectorAll('.controls input'),
-      handleUpdate: (e) => {
+      handleUpdate: function() {
         // Store data-sizing suffix in variable:
-        const suffix = e.target.dataset.sizing || ''; // Empty string fallback in case there is no sizing attribute.
+        const suffix = this.dataset.sizing || ''; // Empty string fallback in case there is no sizing attribute.
         // Set the property of the selected input to the selected value and append the "px" suffix (if applicable):
-        document.documentElement.style.setProperty(`--${e.target.name}`, e.target.value + suffix);
+        document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
       },
       init: () => {
         // Adjust effects when controls are set to new values:
