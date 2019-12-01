@@ -12,7 +12,7 @@
     <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
 
     <label for="blur">Blur:</label>
-    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+    <input id="blur" type="range" name="blur" min="0" max="25" value="0" data-sizing="px">
 
     <label for="base">Base Color</label>
     <input id="base" type="color" name="base" value="#ffc600">
@@ -22,17 +22,33 @@
 
   <style>
 
+    :root {
+      --base: #ffc600;
+      --blur: 0px;
+      --spacing: 10px;
+    }
+
+    img {
+      background: var(--base);
+      filter: blur(var(--blur));
+      padding: var(--spacing);
+    }
+
+    .hl {
+      color: var(--base);
+    }
+
     /*
       misc styles, nothing to do with CSS variables
     */
 
     body {
-      text-align: center;
       background: #193549;
-      color: white;
+      color: #fff;
       font-family: 'helvetica neue', sans-serif;
-      font-weight: 100;
       font-size: 50px;
+      font-weight: 100;
+      text-align: center;
     }
 
     .controls {
@@ -42,9 +58,26 @@
     input {
       width: 100px;
     }
+
   </style>
 
   <script>
+
+    // Select all controls:
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      // Store data-sizing suffix in variable:
+      const suffix = this.dataset.sizing || ''; // Empty string fallback in case there is no sizing attribute.
+      // Set the property of the selected input to the selected value and append the "px" suffix (if applicable):
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    // Adjust when controls are set to new values:
+    inputs.forEach( input => input.addEventListener('change', handleUpdate));
+    // Adjust as controls are slid:
+    inputs.forEach( input => input.addEventListener('mousemove', handleUpdate));
+
   </script>
 
 </body>
